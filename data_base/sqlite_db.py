@@ -38,7 +38,7 @@ async def sql_add_person(id, name, branch, message):
     cur.execute("INSERT INTO personal (id, name, brach) VALUES (?, ?, ?)", (id, name, branch,))
     base.commit()
     await bot.send_message(message.from_user.id, "Вы прошли регистрацию", reply_markup=kb_client)
-    await bot.send_message(admin, "Прошел регистрацию пользователь:\n{0} {1}".format(name, branch), reply_markup=kb_client)
+    await bot.send_message(admin, "Прошел регистрацию пользователь:\n{0} {1}".format(name, branch), reply_markup=kb_admin)
      
 
 async def sql_check_samples_all(date):
