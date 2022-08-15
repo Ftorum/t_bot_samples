@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardRemove
-from data_base.sqlite_db import sql_check_person, sql_check_samples_all, sql_remove_samples_admin#, sql_check_max_samples_add_corrections
+from data_base.sqlite_db import sql_check_person, sql_check_samples_all, sql_remove_samples_admin, sql_add_samples_admin#, sql_check_max_samples_add_corrections
 
 
 class FSMadmin(StatesGroup):
@@ -101,7 +101,10 @@ async def command_load_number(message: types.Message, state: FSMContext):
     ID = message.from_user.id  
     async with state.proxy() as data:
         data['branch'] = message.text
-        await sql_remove_samples_admin(state,message,tuple(data.values())[-1])
+        if tuple(data.values())[0] == 'Убрать пробы':
+            await sql_remove_samples_admin(state,message,tuple(data.values())[-1])
+        if tuple(data.values())[0] == 'Добавить пробы':
+            await sql_add_samples_admin(state,message,tuple(data.values())[-1])
     await state.finish()
 
 

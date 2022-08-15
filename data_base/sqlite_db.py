@@ -84,7 +84,7 @@ async def sql_add_samples(state, id, message):
         check_row_all =(await sql_check_samples_all(tuple(data.values())[1]))
         check_row =(await sql_check_samples(tuple(data.values())[1], person_branch)) 
         day = tuple(data.values())[1]
-        number = tuple(data.values())[-1]
+        number = int(tuple(data.values())[-1])
         reply_text= 'Ваши пробы в кол-ве {} шт., приняты'.format(number)
         if check_row == []:
             if number <= max_number_sample:
@@ -155,7 +155,7 @@ async def sql_add_samples(state, id, message):
                             await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, total_summ+number), reply_markup=kb_client)
                     else:
                         await bot.send_message(message.from_user.id, max_samples_text, reply_markup=kb_client)
-
+        
 
 async def sql_remove_samples_admin(state, message, branch):
     async with state.proxy() as data:
@@ -189,3 +189,82 @@ async def sql_remove_samples_admin(state, message, branch):
                     await bot.send_message(message.from_user.id, "Вы хотите удалить больше чем есть ({0} шт.), пропробуйте снова".format(solid_last), reply_markup=kb_admin)       
         else:
             await bot.send_message(message.from_user.id, "У вашей группы/отдела в этот день таких проб не запланировано", reply_markup=kb_admin)
+
+
+async def sql_add_samples_admin(state, message, branch):
+    async with state.proxy() as data:
+        person_branch = branch
+        check_row_all =(await sql_check_samples_all(tuple(data.values())[1]))
+        check_row =(await sql_check_samples(tuple(data.values())[1], person_branch)) 
+        day = tuple(data.values())[1]
+        number = int(tuple(data.values())[-1])
+        reply_text= 'Ваши пробы в кол-ве {} шт., приняты'.format(number)
+        if check_row == []:
+            if number <= max_number_sample:
+                if tuple(data.values())[2]=='Вода':
+                    cur.execute("INSERT INTO samples (day, water_number, branch) VALUES (?, ?, ?)", (day, number , person_branch,))
+                    base.commit()
+                    await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_admin)
+                    for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
+                        await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, number), reply_markup=kb_admin)
+                if tuple(data.values())[2]=='Почва':
+                    cur.execute("INSERT INTO samples (day, soil_number, branch) VALUES (?, ?, ?)", (day,number, person_branch,))
+                    base.commit()
+                    await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_admin)
+                    for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
+                        await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, number), reply_markup=kb_admin)
+        else:
+            water_amount = 0
+            soil_amount = 0
+            for i in check_row_all:
+                if i[2] != None:
+                    water_amount += i[2]
+                else:
+                    pass
+                if i[3] != None:
+                    soil_amount += i[3]
+                else:
+                    pass
+            total_summ = water_amount + soil_amount
+            able_amount = max_number_sample - total_summ
+            max_samples_text = 'Максимальная возможное кол-во проб в этот день: {0}'.format(able_amount)
+            if tuple(data.values())[2]=='Вода':
+                if check_row[0][2]==None:
+                    if number <= able_amount:
+                        cur.execute("UPDATE samples SET water_number=? WHERE day=? AND branch=?", (number, day, person_branch,))
+                        base.commit()
+                        await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_admin)
+                        for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
+                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, number), reply_markup=kb_admin)
+                    else:
+                        await bot.send_message(message.from_user.id, max_samples_text, reply_markup=kb_admin)
+                else:
+                    if number <= able_amount:
+                        summ_water_number = check_row[0][2] + number
+                        cur.execute("UPDATE samples SET water_number=? WHERE day=? AND branch=?", (summ_water_number, day, person_branch,))
+                        base.commit()
+                        await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_admin)
+                        for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
+                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, total_summ+number), reply_markup=kb_admin)
+                    else:
+                        await bot.send_message(message.from_user.id, max_samples_text, reply_markup=kb_admin)
+            if tuple(data.values())[2]=='Почва':
+                if check_row[0][3] == None:
+                    if number <= able_amount:
+                        cur.execute("UPDATE samples SET soil_number=? WHERE day=? AND branch=?", (number, day, person_branch,))
+                        base.commit()
+                        await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_admin)
+                        for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
+                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, number), reply_markup=kb_admin)
+                    else:
+                        await bot.send_message(message.from_user.id, max_samples_text, reply_markup=kb_admin)
+                else:
+                    if number <= able_amount:
+                        summ_soil_number = check_row[0][3]+number
+                        cur.execute("UPDATE samples SET soil_number=? WHERE day=? AND branch=?", (summ_soil_number, day, person_branch,))
+                        base.commit()
+                        await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_admin)
+                        for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
+                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, total_summ+number), reply_markup=kb_admin)
+                    else:
+                        await bot.send_message(message.from_user.id, max_samples_text, reply_markup=kb_admin)

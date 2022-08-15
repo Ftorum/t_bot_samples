@@ -1,6 +1,7 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from datetime import datetime, timedelta
 
+b199 = KeyboardButton('Добавить пробы')
 b19 = KeyboardButton('Убрать пробы')
 b20 = KeyboardButton('Посмотреть загрузку')
 b21 = KeyboardButton('Установить макс. загрузку')
@@ -8,7 +9,7 @@ b22 = KeyboardButton('Запуск')
 
 kb_admin = ReplyKeyboardMarkup(resize_keyboard=True)
 
-kb_admin.add(b22).add(b19).add(b20)#.add(b21)
+kb_admin.add(b22).add(b199).add(b19).add(b20)#.add(b21)
 
 
 b23 = KeyboardButton('Вода')

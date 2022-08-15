@@ -107,11 +107,11 @@ async def load_number(message: types.Message, state: FSMContext):
             if tuple(data.values())[0] == 'Убрать пробы':
                 person = await sql_check_person(ID)
                 await sql_remove_samples(state,person[0][0],message)
-        await state.finish()
     except ValueError:
         await bot.send_message(message.from_user.id, 'Ошибка!\nВведите пожалуйста число!', reply_markup=kb_client)
         await state.finish()
-        
+    await state.finish()
+
 
 async def cancel_handler(message: types.Message, state: FSMContext):
     ID = message.from_user.id  
