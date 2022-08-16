@@ -25,11 +25,12 @@ async def commands_hi(message: types.Message):
     if person ==[]:
         await bot.send_message(message.from_user.id, 'Вам нужно пройти регистрацию.\nВведите свое имя:', reply_markup=ReplyKeyboardRemove())
         await FSMperson.name.set() 
-    if person[0][2] == 'ГАГ' or person[0][2] == 'ГПиПВ' or person[0][2] == 'ОХиТИ' or person[0][2] == 'ОМВС':
-        await FSMday.action.set() 
-        await bot.send_message(message.from_user.id, 'Привет!\nВыберите действие', reply_markup=kb_client)
-    else: 
-        await bot.send_message(message.from_user.id, 'Вы администратор\nЗапустите свою команду', reply_markup=ReplyKeyboardRemove())
+    else:
+        if person[0][2] == 'ГАГ' or person[0][2] == 'ГПиПВ' or person[0][2] == 'ОХиТИ' or person[0][2] == 'ОМВС':
+            await FSMday.action.set() 
+            await bot.send_message(message.from_user.id, 'Привет!\nВыберите действие', reply_markup=kb_client)
+        else: 
+            await bot.send_message(message.from_user.id, 'Вы администратор\nЗапустите свою команду', reply_markup=ReplyKeyboardRemove())
 
 
 async def enter_name(message: types.Message, state: FSMContext):
