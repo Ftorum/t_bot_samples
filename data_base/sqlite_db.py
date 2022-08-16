@@ -93,13 +93,13 @@ async def sql_add_samples(state, id, message):
                     base.commit()
                     await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_client)
                     for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
-                        await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, number), reply_markup=kb_client)
+                        await bot.send_message(res[0], 'На {0} добавлено {1} проб.'.format(day, number, number), reply_markup=kb_client)
                 if tuple(data.values())[2]=='Почва':
                     cur.execute("INSERT INTO samples (day, soil_number, branch) VALUES (?, ?, ?)", (day,number, person_branch,))
                     base.commit()
                     await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_client)
                     for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
-                        await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, number), reply_markup=kb_client)
+                        await bot.send_message(res[0], 'На {0} добавлено {1} проб.'.format(day, number, number), reply_markup=kb_client)
         else:
             water_amount = 0
             soil_amount = 0
@@ -122,7 +122,7 @@ async def sql_add_samples(state, id, message):
                         base.commit()
                         await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_client)
                         for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
-                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, number), reply_markup=kb_client)
+                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number), reply_markup=kb_admin)
                     else:
                         await bot.send_message(message.from_user.id, max_samples_text, reply_markup=kb_client)
                 else:
@@ -132,7 +132,7 @@ async def sql_add_samples(state, id, message):
                         base.commit()
                         await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_client)
                         for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
-                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, total_summ+number), reply_markup=kb_client)
+                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.'.format(day, number,), reply_markup=kb_admin)
                     else:
                         await bot.send_message(message.from_user.id, max_samples_text, reply_markup=kb_client)
             if tuple(data.values())[2]=='Почва':
@@ -142,7 +142,7 @@ async def sql_add_samples(state, id, message):
                         base.commit()
                         await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_client)
                         for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
-                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, number), reply_markup=kb_client)
+                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.'.format(day, number,), reply_markup=kb_admin)
                     else:
                         await bot.send_message(message.from_user.id, max_samples_text, reply_markup=kb_client)
                 else:
@@ -152,7 +152,7 @@ async def sql_add_samples(state, id, message):
                         base.commit()
                         await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_client)
                         for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
-                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, total_summ+number), reply_markup=kb_client)
+                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.'.format(day, number,), reply_markup=kb_admin)
                     else:
                         await bot.send_message(message.from_user.id, max_samples_text, reply_markup=kb_client)
         
@@ -206,13 +206,13 @@ async def sql_add_samples_admin(state, message, branch):
                     base.commit()
                     await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_admin)
                     for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
-                        await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, number), reply_markup=kb_admin)
+                        await bot.send_message(res[0], 'На {0} добавлено {1} проб.'.format(day, number,), reply_markup=kb_admin)
                 if tuple(data.values())[2]=='Почва':
                     cur.execute("INSERT INTO samples (day, soil_number, branch) VALUES (?, ?, ?)", (day,number, person_branch,))
                     base.commit()
                     await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_admin)
                     for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
-                        await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, number), reply_markup=kb_admin)
+                        await bot.send_message(res[0], 'На {0} добавлено {1} проб.'.format(day, number,), reply_markup=kb_admin)
         else:
             water_amount = 0
             soil_amount = 0
@@ -235,7 +235,7 @@ async def sql_add_samples_admin(state, message, branch):
                         base.commit()
                         await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_admin)
                         for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
-                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, number), reply_markup=kb_admin)
+                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.'.format(day, number,), reply_markup=kb_admin)
                     else:
                         await bot.send_message(message.from_user.id, max_samples_text, reply_markup=kb_admin)
                 else:
@@ -245,7 +245,7 @@ async def sql_add_samples_admin(state, message, branch):
                         base.commit()
                         await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_admin)
                         for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
-                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, total_summ+number), reply_markup=kb_admin)
+                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.'.format(day, number, total_summ+number), reply_markup=kb_admin)
                     else:
                         await bot.send_message(message.from_user.id, max_samples_text, reply_markup=kb_admin)
             if tuple(data.values())[2]=='Почва':
@@ -255,7 +255,7 @@ async def sql_add_samples_admin(state, message, branch):
                         base.commit()
                         await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_admin)
                         for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
-                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, number), reply_markup=kb_admin)
+                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.'.format(day, number,), reply_markup=kb_admin)
                     else:
                         await bot.send_message(message.from_user.id, max_samples_text, reply_markup=kb_admin)
                 else:
@@ -265,6 +265,6 @@ async def sql_add_samples_admin(state, message, branch):
                         base.commit()
                         await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_admin)
                         for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
-                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.\nИтого {2} '.format(day, number, total_summ+number), reply_markup=kb_admin)
+                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.'.format(day, number,), reply_markup=kb_admin)
                     else:
                         await bot.send_message(message.from_user.id, max_samples_text, reply_markup=kb_admin)
