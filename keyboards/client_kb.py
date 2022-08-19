@@ -41,7 +41,7 @@ kb_client_week.row(b6)
 b14 = KeyboardButton('ГХиСИ')
 b15 = KeyboardButton('ГАГ')
 b16 = KeyboardButton('ГПиПВ')
-b17 = KeyboardButton('ОХиТИ')
+b17 = KeyboardButton('ОХТИ')
 b18 = KeyboardButton('ОМВС')
 
 kb_client_registration = ReplyKeyboardMarkup()
