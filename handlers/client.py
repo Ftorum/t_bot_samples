@@ -26,7 +26,7 @@ async def commands_hi(message: types.Message):
         await bot.send_message(message.from_user.id, 'Вам нужно пройти регистрацию.\nВведите свое имя:', reply_markup=ReplyKeyboardRemove())
         await FSMperson.name.set() 
     else:
-        if person[0][2] == 'ГАГ' or person[0][2] == 'ГПиПВ' or person[0][2] == 'ОХиТИ' or person[0][2] == 'ОМВС':
+        if person[0][2] == 'ГАГ' or person[0][2] == 'ГПиПВ' or person[0][2] == 'ОХТИ' or person[0][2] == 'ОМВС':
             await FSMday.action.set() 
             await bot.send_message(message.from_user.id, 'Привет!\nВыберите действие', reply_markup=kb_client)
         else: 
