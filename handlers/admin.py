@@ -74,7 +74,7 @@ async def commands_third_admin(message: types.Message, state: FSMContext):
                 await state.finish()
         else:
             await FSMadmin.sample.set()
-            await message.reply('Какие пробы хотите удалить?', reply_markup=kb_admin_choise)
+            await message.reply('Какие пробы хотите добаить/удалить?', reply_markup=kb_admin_choise)
 
 
 async def command_choose_sample(message: types.Message, state: FSMContext):

@@ -245,7 +245,7 @@ async def sql_add_samples_admin(state, message, branch):
                         base.commit()
                         await bot.send_message(message.from_user.id, reply_text, reply_markup=kb_admin)
                         for res in cur.execute("SELECT * FROM personal WHERE brach='ГХиСИ' ").fetchall():
-                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.'.format(day, number, total_summ+number), reply_markup=kb_admin)
+                            await bot.send_message(res[0], 'На {0} добавлено {1} проб.'.format(day, number,), reply_markup=kb_admin)
                     else:
                         await bot.send_message(message.from_user.id, max_samples_text, reply_markup=kb_admin)
             if tuple(data.values())[2]=='Почва':
